@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable
 import java.util.UUID
 
 interface BrandRepositoryPort {
+    fun findAll(): Set<Brand>
     fun findAll(pageable: Pageable): Page<Brand>
     fun findById(id: UUID): Brand?
     fun findByName(name: String): Brand?
@@ -14,4 +15,6 @@ interface BrandRepositoryPort {
     fun deleteById(id: UUID)
     fun existsById(id: UUID): Boolean
     fun existsByName(name: String): Boolean
+    fun deleteAll()
+    fun saveAll(brands: Set<Brand>): Set<Brand>
 }

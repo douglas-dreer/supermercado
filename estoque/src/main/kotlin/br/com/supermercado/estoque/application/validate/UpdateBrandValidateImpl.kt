@@ -19,6 +19,7 @@ class UpdateBrandValidateImpl(
     }
 
     private fun verifyIfBrandIdExists(brandId: UUID) {
+        repository.findAll()
         if (repository.existsById(brandId).not()) {
             throw BrandNotFoundException(brandId)
         }

@@ -38,6 +38,10 @@ class BrandRepositoryAdapter(
         return repository.findByName(name)?.let { mapper.toDomain(it) }
     }
 
+    override fun findAll(): Set<Brand> {
+        return repository.findAll().map { mapper.toDomain(it) }.toSet()
+    }
+
     override fun findAll(pageable: Pageable): Page<Brand> {
         return repository.findAll(pageable).map { mapper.toDomain(it) }
     }
@@ -53,5 +57,16 @@ class BrandRepositoryAdapter(
 
     override fun existsByName(name: String): Boolean {
         return repository.existsByName(name)
+    }
+
+    override fun deleteAll() {
+        return repository.deleteAll()
+    }
+
+    override fun saveAll(brands: Set<Brand>): Set<Brand> {
+        val entities = brands.map { mapper.toEntity(it) }
+        val dataSaved = repository
+            .saveAll(entities).map { mapper.toDomain(it)}
+        return dataSaved.toSet()
     }
 }
