@@ -1,10 +1,10 @@
 package br.com.supermercado.estoque.infrastructure.adapter.input.rest.exception
 
-import br.com.supermercado.estoque.domain.exeception.BrandAlreadyExistsException
-import br.com.supermercado.estoque.domain.exeception.BrandNotFoundException
-import br.com.supermercado.estoque.domain.exeception.ProductAlreadyExistsException
-import br.com.supermercado.estoque.domain.exeception.ProductNotFoundException
-import br.com.supermercado.estoque.domain.exeception.ValidationException
+import br.com.supermercado.estoque.domain.exception.BrandAlreadyExistsException
+import br.com.supermercado.estoque.domain.exception.BrandNotFoundException
+import br.com.supermercado.estoque.domain.exception.ProductAlreadyExistsException
+import br.com.supermercado.estoque.domain.exception.ProductNotFoundException
+import br.com.supermercado.estoque.domain.exception.ValidationException
 import br.com.supermercado.estoque.infrastructure.adapter.input.rest.dto.response.ErrorResponse
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

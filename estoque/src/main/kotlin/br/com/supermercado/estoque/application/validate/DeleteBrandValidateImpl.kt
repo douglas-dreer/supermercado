@@ -2,7 +2,7 @@ package br.com.supermercado.estoque.application.validate
 
 import br.com.supermercado.estoque.application.port.input.brand.validate.DeleteBrandValidate
 import br.com.supermercado.estoque.application.port.output.BrandRepositoryPort
-import br.com.supermercado.estoque.domain.exeception.BrandNotFoundException
+import br.com.supermercado.estoque.domain.exception.BrandNotFoundException
 import org.springframework.stereotype.Component
 import java.util.UUID
 

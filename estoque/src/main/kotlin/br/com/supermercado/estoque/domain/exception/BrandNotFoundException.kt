@@ -1,4 +1,4 @@
-package br.com.supermercado.estoque.domain.exeception
+package br.com.supermercado.estoque.domain.exception
 
 import java.util.UUID
 

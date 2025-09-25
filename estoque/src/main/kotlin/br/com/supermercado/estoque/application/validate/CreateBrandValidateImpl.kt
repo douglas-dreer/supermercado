@@ -2,7 +2,8 @@ package br.com.supermercado.estoque.application.validate
 
 import br.com.supermercado.estoque.application.port.input.brand.validate.CreateBrandValidate
 import br.com.supermercado.estoque.application.port.output.BrandRepositoryPort
-import br.com.supermercado.estoque.domain.exeception.BrandAlreadyExistsException
+import br.com.supermercado.estoque.domain.exception.BrandAlreadyExistsException
+
 import br.com.supermercado.estoque.domain.model.Brand
 import org.springframework.stereotype.Component
 
