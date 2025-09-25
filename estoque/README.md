@@ -1,228 +1,165 @@
-# 🏪 Sistema de Estoque - Supermercado
+# Estoque — Módulo do Supermercado
 
-Este é um sistema de gerenciamento de estoque desenvolvido em **Kotlin** com **Spring Boot**, seguindo os princípios da
-**Arquitetura Hexagonal (Ports and Adapters)**.
+> Status: Estável e em evolução contínua. Este módulo segue os mesmos padrões de documentação, arquitetura e qualidade
+> definidos no README raiz do monorepo.
 
-## 🏗️ Arquitetura
+## Sumário
 
-O projeto segue a **Arquitetura Hexagonal**, garantindo:
+- [Visão Geral](#visão-geral)
+- [Arquitetura](#arquitetura)
+- [Tecnologias](#tecnologias)
+- [Funcionalidades](#funcionalidades)
+- [Como Executar](#como-executar)
+- [Perfis e Configurações](#perfis-e-configurações)
+- [Migrações de Banco](#migrações-de-banco)
+- [Documentação da API](#documentação-da-api)
+- [Testes](#testes)
+- [Qualidade e Observabilidade](#qualidade-e-observabilidade)
+- [Estrutura do Módulo](#estrutura-do-módulo)
+- [Convenções de Código e Commits](#convenções-de-código-e-commits)
+- [Contribuição](#contribuição)
+- [Suporte](#suporte)
+- [Licença](#licença)
 
-- **Separação clara de responsabilidades**
-- **Fácil testabilidade**
-- **Flexibilidade para mudanças**
-- **Independência de frameworks externos**
+## Visão Geral
 
-### 📁 Estrutura das Camadas
+Serviço responsável pelo catálogo e controle de estoque, abrangendo cadastro de Marcas e Produtos, além de regras de
+validação e paginação de resultados. Implementado em Kotlin + Spring Boot, utilizando Arquitetura Hexagonal (Ports &
+Adapters) e práticas de DDD.
+
+## Arquitetura
+
+Seguindo Arquitetura Hexagonal, com separação entre domínio, aplicação e infraestrutura:
 
 ```
-├── domain/          # Regras de negócio e entidades
-├── application/     # Casos de uso e ports
-└── infrastructure/ # Implementações e adaptadores
+estoque/
+├─ src/main/kotlin/br/com/supermercado/estoque/
+│  ├─ domain/            # Regras de negócio e modelos
+│  ├─ application/       # Casos de uso e portas (input/output)
+│  └─ infrastructure/    # Adapters REST, JPA, configuração
+└─ src/main/resources/   # Configurações, Flyway, application-*.yml
 ```
 
-## 🚀 Tecnologias Utilizadas
+Pontos-chave:
 
-- **Kotlin 1.9.20**
-- **Spring Boot 3.2.0**
-- **Spring Data JPA**
-- **PostgreSQL / H2**
-- **Flyway** (Migrações)
-- **Swagger/OpenAPI**
-- **JUnit 5 + MockK**
-- **Caffeine Cache**
+- Ports (interfaces) expostas na camada de aplicação; adapters implementam portas na infraestrutura
+- Spring Data JPA para persistência; mapeamento separado (Entity/Mapper)
+- Tratamento global de erros e respostas padronizadas
 
-## 📋 Funcionalidades
+## Tecnologias
 
-### 🏷️ Marcas (Brands)
+- Kotlin 1.9.x
+- Spring Boot 3.x
+- Spring Data JPA
+- PostgreSQL (prod) e H2 (test/dev)
+- Flyway
+- Swagger/OpenAPI
+- JUnit 5, MockK, Testcontainers
 
-- ✅ Criar nova marca
-- ✅ Listar marcas com paginação
-- ✅ Buscar marca por ID
-- ✅ Atualizar marca
-- ✅ Excluir marca
+## Funcionalidades
 
-### 📦 Produtos (Products)
+- Marcas (Brand)
+    - CRUD completo (criar, listar paginado, buscar por ID, atualizar, deletar)
+    - Validação de nome duplicado e mensagens de erro padronizadas
+- Produtos (Product)
+    - CRUD, busca por ID e por código de barras
+    - Paginação consistente e mapeamentos DTO
 
-- ✅ Criar novo produto
-- ✅ Listar produtos com paginação
-- ✅ Buscar produto por ID
-- ✅ Buscar produto por código de barras
-- ✅ Atualizar produto
-- ✅ Excluir produto
-- ✅ Controle de estoque mínimo
+## Como Executar
 
-## 🛠️ Como Executar
-
-### Pré-requisitos
-
+Pré-requisitos:
 - Java 17+
-- Docker (opcional para PostgreSQL)
+- (Opcional) Subir infraestrutura de apoio via Docker Compose na raiz do monorepo
 
-### 1. Clone o repositório
-
+1) Infra de apoio (opcional, recomendado para Postgres, Sonar, Kafka) — executar a partir da raiz do repositório:
 ```bash
-git clone <repository-url>
-cd estoque
+docker compose -f docker-composer.yml up -d
 ```
 
-### 2. Execute com H2 (ambiente de desenvolvimento)
+2) Executar o módulo Estoque em desenvolvimento
 
+- Linux/Mac:
 ```bash
-./gradlew bootRun --args='--spring.profiles.active=dev'
+cd estoque && ./gradlew bootRun
 ```
 
-### 3. Execute com PostgreSQL
+- Windows (PowerShell):
 
-```bash
-# Inicie o PostgreSQL com Docker
-docker run --name postgres-estoque -e POSTGRES_DB=estoque -e POSTGRES_USER=estoque -e POSTGRES_PASSWORD=password -p 5432:5432 -d postgres:15
-
-# Execute a aplicação
-./gradlew bootRun --args='--spring.profiles.active=prod'
+```powershell
+cd estoque; .\gradlew.bat bootRun
 ```
 
-## 📖 Documentação da API
+A aplicação sobe, por padrão, na porta 8080.
 
-Após iniciar a aplicação, acesse:
+## Perfis e Configurações
 
-- **Swagger UI**: http://localhost:8080/swagger-ui.html
-- **OpenAPI JSON**: http://localhost:8080/v3/api-docs
+Perfis disponíveis: `dev`, `test`, `prod`.
 
-### Console H2 (ambiente dev)
+- Arquivos: `src/main/resources/application.yml`, `application-dev.yml`, `application-test.yml`
+- Variáveis comuns (exemplos):
 
-- **URL**: http://localhost:8080/h2-console
-- **JDBC URL**: `jdbc:h2:mem:testdb`
-- **Username**: `sa`
-- **Password**: *(vazio)*
-
-## 🧪 Testes
-
-### Executar todos os testes
-
-```bash
-./gradlew test
+```properties
+SPRING_PROFILES_ACTIVE=dev
+SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/supermercado
+SPRING_DATASOURCE_USERNAME=admin
+SPRING_DATASOURCE_PASSWORD=Admin@123
 ```
 
-### Executar testes com relatório
+## Migrações de Banco
 
-```bash
-./gradlew test jacocoTestReport
-```
+- Migrado via Flyway automaticamente ao iniciar a aplicação
+- Scripts localizados em: `src/main/resources/db/imigration`
+    - `V1__CREATE_SCHEMA.sql`, `V2__CREATE_BRAND_TABLE.sql`, `V3__CREATE_PRODUCT_TABLE.sql`, `V4__INSERT_BRANDS.sql`
 
-### Tipos de Testes Incluídos
+## Documentação da API
 
-- **Testes Unitários**: Use cases, domínio e repositórios
-- **Testes de Integração**: Controllers e banco de dados
-- **Testes de Contrato**: Validação de APIs
+- Swagger UI: http://localhost:8080/swagger-ui.html
+- OpenAPI JSON: http://localhost:8080/v3/api-docs
 
-## 📊 Monitoramento
+## Testes
 
-A aplicação inclui endpoints do **Spring Actuator**:
+- Testes Unitários e de Integração (JUnit 5, MockK, Testcontainers)
+- Como executar:
+    - Linux/Mac:
+      ```bash
+      cd estoque && ./gradlew test
+      ```
+    - Windows (PowerShell):
+      ```powershell
+      cd estoque; .\gradlew.bat test
+      ```
 
-- **Health**: `/actuator/health`
-- **Metrics**: `/actuator/metrics`
-- **Info**: `/actuator/info`
+## Qualidade e Observabilidade
 
-## 🔧 Configuração
+- SonarQube (infra disponível via Docker Compose na raiz: http://localhost:9000)
+- Tratamento global de exceções com `GlobalExceptionHandler` e payload `ErrorResponse`
+- Padrão de paginação e respostas consistente (`PageResponse`, DTOs dedicados)
 
-### Profiles Disponíveis
+## Estrutura do Módulo
 
-- `dev`: H2 em memória, logs detalhados
-- `prod`: PostgreSQL, logs otimizados
-- `test`: H2 para testes, configurações específicas
+- `src/main/kotlin/br/com/supermercado/estoque/application` — casos de uso e portas
+- `src/main/kotlin/br/com/supermercado/estoque/domain` — modelos de domínio e exceções
+- `src/main/kotlin/br/com/supermercado/estoque/infrastructure` — controllers REST, adapters JPA, config
+- `src/main/resources/db/imigration` — scripts Flyway
+- `docs/` — guias e tutoriais (ver também no README raiz)
 
-### Variáveis de Ambiente (Produção)
+## Convenções de Código e Commits
 
-```bash
-DATABASE_URL=jdbc:postgresql://localhost:5432/estoque
-DATABASE_USERNAME=estoque
-DATABASE_PASSWORD=password
-SERVER_PORT=8080
-```
+- Kotlin + Spring Boot 3, Arquitetura Hexagonal
+- Mensagens de erro e contratos HTTP padronizados
+- Commits semânticos: `feat`, `fix`, `docs`, `test`, `refactor`, `chore`
 
-## 📝 Exemplos de API
+## Contribuição
 
-### Criar Marca
+- Abra uma issue descrevendo contexto e objetivo
+- Envie PR pequena, com testes e aderente às convenções
 
-```bash
-curl -X POST http://localhost:8080/api/v1/brands \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "Coca-Cola",
-    "description": "Bebidas e refrigerantes"
-  }'
-```
+## Suporte
 
-### Criar Produto
+- Dúvidas e problemas: issues no repositório
+- Consulte também `estoque/docs` e o README na raiz para visão geral do monorepo
 
-```bash
-curl -X POST http://localhost:8080/api/v1/products \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "Coca-Cola 350ml",
-    "description": "Refrigerante de cola",
-    "barcode": "7894900011517",
-    "price": 4.50,
-    "stockQuantity": 100,
-    "minStockQuantity": 10,
-    "brandId": "uuid-da-marca",
-    "category": "Bebidas"
-  }'
-```
+## Licença
 
-### Listar Produtos com Paginação
-
-```bash
-curl "http://localhost:8080/api/v1/products?page=0&size=10&sort=name&direction=ASC"
-```
-
-## 🏛️ Padrões Utilizados
-
-### Domain-Driven Design (DDD)
-
-- **Entidades** ricas com comportamentos
-- **Value Objects** para dados imutáveis
-- **Repositórios** para persistência
-- **Serviços de domínio** para lógicas complexas
-
-### SOLID Principles
-
-- **Single Responsibility**: Cada classe tem uma responsabilidade
-- **Open/Closed**: Extensível sem modificar código existente
-- **Liskov Substitution**: Interfaces bem definidas
-- **Interface Segregation**: Ports específicos e coesos
-- **Dependency Inversion**: Dependências abstraídas por interfaces
-
-### Clean Code
-
-- **Nomenclatura expressiva**
-- **Funções pequenas e focadas**
-- **Testes abrangentes**
-- **Documentação clara**
-
-## 🤝 Contribuindo
-
-1. Fork o projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-4. Push para a branch (`git push origin feature/AmazingFeature`)
-5. Abra um Pull Request
-
-## 📄 Licença
-
-Este projeto está licenciado sob a MIT License - veja o arquivo [LICENSE](LICENSE) para detalhes.
-
-## ✨ Próximas Funcionalidades
-
-- [ ] Cache distribuído com Redis
-- [ ] Mensageria com Kafka
-- [ ] Métricas com Micrometer
-- [ ] Integração com serviços externos
-- [ ] API de relatórios
-- [ ] Autenticação e autorização
-- [ ] Versionamento de API
-- [ ] Rate limiting
-
----
-
-Desenvolvido com ❤️ usando Kotlin e Spring Boot
+Este módulo segue a mesma licença definida no README raiz do repositório (proprietária, ou ajuste para MIT/Apache-2.0
+conforme aplicável).
