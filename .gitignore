@@ -1,4 +1,2 @@
-.idea
-
-/estoque/.idea
-/pdv/.idea
+.idea/**
+**/.idea
