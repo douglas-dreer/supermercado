@@ -2,18 +2,13 @@ package br.com.supermercado.estoque.infrastructure.adapter.input.rest.controller
 
 import br.com.supermercado.estoque.application.dto.query.FindAllBrandsQuery
 import br.com.supermercado.estoque.application.dto.query.FindBrandByIdQuery
-import br.com.supermercado.estoque.application.port.input.brand.CreateBrandUseCase
-import br.com.supermercado.estoque.application.port.input.brand.DeleteBrandUseCase
-import br.com.supermercado.estoque.application.port.input.brand.FindAllBrandsUseCase
-import br.com.supermercado.estoque.application.port.input.brand.FindBrandByIdUseCase
-import br.com.supermercado.estoque.application.port.input.brand.UpdateBrandUseCase
+import br.com.supermercado.estoque.application.port.input.brand.*
 import br.com.supermercado.estoque.infrastructure.adapter.input.rest.dto.request.CreateBrandRequest
 import br.com.supermercado.estoque.infrastructure.adapter.input.rest.dto.request.UpdateBrandRequest
 import br.com.supermercado.estoque.infrastructure.adapter.input.rest.dto.response.BrandResponse
 import br.com.supermercado.estoque.infrastructure.adapter.input.rest.dto.response.PageResponse
-import br.com.supermercado.estoque.infrastructure.adapter.input.rest.extention.PageExtention.toPageResponse
+import br.com.supermercado.estoque.infrastructure.adapter.input.rest.extention.PageExtension.toPageResponse
 import br.com.supermercado.estoque.infrastructure.adapter.input.rest.mapper.BrandMapper
-import br.com.supermercado.estoque.infrastructure.adapter.input.rest.mapper.PageMapper
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
@@ -21,17 +16,8 @@ import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.ResponseStatus
-import org.springframework.web.bind.annotation.RestController
-import java.util.UUID
+import org.springframework.web.bind.annotation.*
+import java.util.*
 
 @RestController
 @RequestMapping("/api/v1/brands")
@@ -42,8 +28,7 @@ class BrandController(
     private val createBrandUseCase: CreateBrandUseCase,
     private val updateBrandUseCase: UpdateBrandUseCase,
     private val deleteBrandUseCase: DeleteBrandUseCase,
-    private val converter: BrandMapper,
-    private val pageConverter: PageMapper
+    private val converter: BrandMapper
 ) {
 
     @PostMapping
