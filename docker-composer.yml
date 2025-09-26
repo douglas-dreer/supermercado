@@ -7,7 +7,7 @@ services:
 
   # Serviço do banco de dados PostgreSQL para a aplicação
   postgres_supermercado:
-    image: postgres:14-alpine
+    image: postgres:15
     container_name: postgres_supermercado_estoque_container
     environment:
       # Credenciais para o banco da sua aplicação
@@ -30,8 +30,8 @@ services:
 
   # Serviço principal do SonarQube
   sonarqube:
-    image: sonarqube:lts-community
-    container_name: sonarqube
+    image: sonarqube:community
+    container_name: sonarqube_container
     ports:
       - "9000:9000" # Porta de acesso à interface web do SonarQube
       - "9092:9092"
