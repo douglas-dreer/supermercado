@@ -32,8 +32,7 @@ class CreateBrandValidateIT {
 
     companion object {
         @Container
-        private val postgresqlContainer = PostgreSQLContainer("postgres:15-alpine")
-            .withDatabaseName("supermercado-integration-test")
+        private val postgresqlContainer = PostgreSQLContainer("postgres:15")
 
 
         @JvmStatic
