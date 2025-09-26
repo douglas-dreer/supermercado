@@ -1,17 +1,12 @@
 package br.com.supermercado.estoque.infrastructure.adapter.output.persistence.entity
 
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.Table
+import jakarta.persistence.*
 import java.math.BigDecimal
 import java.time.LocalDateTime
-import java.util.UUID
+import java.util.*
 
 @Entity
-@Table(name = "products")
+@Table(name = "products", schema = "estoque")
 data class ProductEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
