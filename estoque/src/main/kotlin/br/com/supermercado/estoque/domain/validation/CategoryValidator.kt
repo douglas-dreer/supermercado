@@ -8,7 +8,7 @@ abstract class CategoryValidator {
         return repository.existsById(categoryId)
     }
 
-    fun isNameRegisteredForOtherCategory(brandName: String, repository: CategoryRepositoryAdapter): Boolean {
-        return repository.existsByName(brandName)
+    fun isNameRegisteredForOtherCategory(categoryName: String, repository: CategoryRepositoryAdapter): Boolean {
+        return repository.existsByName(categoryName)
     }
 }
