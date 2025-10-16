@@ -22,8 +22,7 @@ class BrandMapper {
         return UpdateBrandCommand(
             id = brandId,
             name = updateRequest.name,
-            description = updateRequest.description,
-            active = updateRequest.active?: true
+            description = updateRequest.description
         )
     }
 

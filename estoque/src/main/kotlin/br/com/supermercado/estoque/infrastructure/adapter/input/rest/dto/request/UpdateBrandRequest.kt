@@ -7,7 +7,5 @@ data class UpdateBrandRequest(
     val name: String?,
 
     @field:Size(max = 500, message = "Description must not exceed 500 characters")
-    val description: String?,
-
-    val active: Boolean?
+    val description: String?
 )

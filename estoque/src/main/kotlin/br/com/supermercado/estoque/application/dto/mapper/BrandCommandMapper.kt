@@ -15,8 +15,7 @@ class BrandCommandMapper {
         return Brand(
             id = command.id,
             name = command.name ?: "",
-            description = command.description,
-            active = command.active == true
+            description = command.description
         )
     }
 }
