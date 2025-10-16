@@ -19,6 +19,7 @@ class CategoryController(
     private val converter: CategoryMapper
 ) {
 
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create a new category")
