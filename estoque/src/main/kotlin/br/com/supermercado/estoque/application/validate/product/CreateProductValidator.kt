@@ -1,13 +1,14 @@
 package br.com.supermercado.estoque.application.validate.product
 
-import br.com.supermercado.estoque.infrastructure.common.annotation.CreateValidation
-import br.com.supermercado.estoque.domain.exception.BrandNotFoundException
-import br.com.supermercado.estoque.domain.exception.ProductAlreadyExistsException
+import br.com.supermercado.estoque.domain.exception.BusinessException
+import br.com.supermercado.estoque.domain.exception.NotFoundException
 import br.com.supermercado.estoque.domain.model.Product
 import br.com.supermercado.estoque.domain.validation.ProductValidator
 import br.com.supermercado.estoque.domain.validation.ValidationStrategy
 import br.com.supermercado.estoque.infrastructure.adapter.output.persistence.adapter.BrandRepositoryAdapter
 import br.com.supermercado.estoque.infrastructure.adapter.output.persistence.adapter.ProductRepositoryAdapter
+import br.com.supermercado.estoque.infrastructure.common.annotation.CreateValidation
+import br.com.supermercado.estoque.infrastructure.common.constant.ErrorMessages
 import org.springframework.stereotype.Component
 
 @Component
@@ -19,11 +20,11 @@ class CreateProductValidator(
     override fun execute(item: Product) {
 
         if (super.verifyIfExistNameAlrighRegistred(item.name, productRepository)) {
-            throw ProductAlreadyExistsException(item.name)
+            throw BusinessException(ErrorMessages.PRODUCT_ALREADY_EXISTS)
         }
 
         if (!super.verifyIfBrandIdExist(item.brandId, brandRepository)){
-            throw BrandNotFoundException(item.brandId)
+            throw NotFoundException(ErrorMessages.PRODUCT_NOT_FOUND)
         }
     }
 }
