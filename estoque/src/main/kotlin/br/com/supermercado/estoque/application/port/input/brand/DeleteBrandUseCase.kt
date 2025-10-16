@@ -4,4 +4,5 @@ import java.util.UUID
 
 interface DeleteBrandUseCase {
     fun execute(brandId: UUID)
+    fun executeValidate(brandId: UUID)
 }

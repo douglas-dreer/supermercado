@@ -1,6 +1,6 @@
 package br.com.supermercado.estoque.integration.validate
 
-import br.com.supermercado.estoque.application.port.input.brand.validate.UpdateBrandValidate
+import br.com.supermercado.estoque.application.port.input.brand.validate.brand.UpdateBrandValidate
 import br.com.supermercado.estoque.application.port.output.BrandRepositoryPort
 import br.com.supermercado.estoque.domain.exception.BrandAlreadyExistsException
 import br.com.supermercado.estoque.domain.exception.BrandNotFoundException

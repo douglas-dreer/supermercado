@@ -1,4 +1,4 @@
-package br.com.supermercado.estoque.application.port.input.brand.validate
+package br.com.supermercado.estoque.application.port.input.brand.validate.brand
 
 import java.util.UUID
 

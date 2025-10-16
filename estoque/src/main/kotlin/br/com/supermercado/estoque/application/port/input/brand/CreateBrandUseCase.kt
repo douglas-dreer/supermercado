@@ -5,6 +5,7 @@ import br.com.supermercado.estoque.domain.model.Brand
 
 interface CreateBrandUseCase {
     fun execute(command: CreateBrandCommand): Brand
+    fun executeValidate(brand: Brand)
 }
 
 
