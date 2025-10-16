@@ -12,7 +12,7 @@ class ProductEntityMapper {
             id = product.id,
             name = product.name,
             description = product.description,
-            barcode = product.barcode,
+            barcode = product.barcode ?: "",
             price = product.price,
             stockQuantity = product.stockQuantity,
             minStockQuantity = product.minStockQuantity,

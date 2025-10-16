@@ -15,7 +15,6 @@ data class ProductResponse(
     val brandId: UUID,
     val category: String,
     val active: Boolean,
-    val isLowStock: Boolean,
     val createdAt: LocalDateTime,
     val updatedAt: LocalDateTime
 )

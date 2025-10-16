@@ -13,5 +13,6 @@ interface ProductJpaRepository : JpaRepository<ProductEntity, UUID> {
     fun findByBarcode(barcode: String): ProductEntity?
     fun findByBrandId(brandId: UUID, pageable: Pageable): Page<ProductEntity>
     fun existsByBarcode(barcode: String): Boolean
+    fun existsByName(name: String): Boolean
     fun countByBrandId(brandId: UUID): Long
 }

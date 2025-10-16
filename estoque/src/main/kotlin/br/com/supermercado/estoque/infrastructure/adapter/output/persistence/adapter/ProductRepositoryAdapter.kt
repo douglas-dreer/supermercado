@@ -56,4 +56,8 @@ class ProductRepositoryAdapter(
     override fun countByBrandId(brandId: UUID): Long {
         return repository.countByBrandId(brandId)
     }
+
+    override fun existsByName(productName: String): Boolean {
+        return repository.existsByName(productName)
+    }
 }

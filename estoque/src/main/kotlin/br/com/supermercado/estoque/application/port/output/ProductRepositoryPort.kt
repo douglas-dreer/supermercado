@@ -15,4 +15,5 @@ interface ProductRepositoryPort {
     fun existsById(id: UUID): Boolean
     fun existsByBarcode(barcode: String): Boolean
     fun countByBrandId(brandId: UUID): Long
+    fun existsByName(productName: String): Boolean
 }

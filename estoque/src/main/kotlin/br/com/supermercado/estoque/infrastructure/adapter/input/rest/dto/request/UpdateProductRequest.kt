@@ -31,4 +31,10 @@ data class UpdateProductRequest(
     val category: String?,
 
     val active: Boolean?
-)
+) {
+    init {
+        require(name.isNullOrBlank(), { "O campo nome, não pode ser nulo ou vazio" })
+        require(category.isNullOrBlank(), { "O campo categoria não pode ser nulo ou vazio" })
+        requireNotNull(active, { "Campo active não pode ser nulo"})
+    }
+}

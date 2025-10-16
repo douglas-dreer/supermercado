@@ -18,7 +18,7 @@ group = "br.com.supermercado"
 version = "0.0.1-SNAPSHOT"
 
 java {
-	sourceCompatibility = JavaVersion.VERSION_17
+	sourceCompatibility = JavaVersion.VERSION_21
 }
 
 jacoco {
@@ -81,7 +81,7 @@ dependencies {
 tasks.withType<KotlinCompile> {
 	kotlinOptions {
 		freeCompilerArgs += "-Xjsr305=strict"
-		jvmTarget = "17"
+		jvmTarget = "21"
 	}
 }
 

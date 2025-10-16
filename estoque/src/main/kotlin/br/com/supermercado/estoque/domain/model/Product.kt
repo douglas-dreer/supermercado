@@ -8,7 +8,7 @@ data class Product(
     val id: UUID? = null,
     val name: String,
     val description: String? = null,
-    val barcode: String,
+    val barcode: String? = null,
     val price: BigDecimal,
     val stockQuantity: Int = 0,
     val minStockQuantity: Int = 0,
@@ -21,7 +21,6 @@ data class Product(
     init {
         require(name.isNotBlank()) { "Product name cannot be blank" }
         require(name.length <= 200) { "Product name cannot exceed 200 characters" }
-        require(barcode.isNotBlank()) { "Product barcode cannot be blank" }
         require(price > BigDecimal.ZERO) { "Product price must be positive" }
         require(stockQuantity >= 0) { "Stock quantity cannot be negative" }
         require(minStockQuantity >= 0) { "Minimum stock quantity cannot be negative" }
