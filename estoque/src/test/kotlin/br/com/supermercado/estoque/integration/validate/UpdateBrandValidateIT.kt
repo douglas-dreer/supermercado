@@ -2,8 +2,6 @@ package br.com.supermercado.estoque.integration.validate
 
 import br.com.supermercado.estoque.application.port.input.brand.validate.brand.UpdateBrandValidate
 import br.com.supermercado.estoque.application.port.output.BrandRepositoryPort
-import br.com.supermercado.estoque.domain.exception.BrandAlreadyExistsException
-import br.com.supermercado.estoque.domain.exception.BrandNotFoundException
 import br.com.supermercado.estoque.domain.model.Brand
 import br.com.supermercado.estoque.infrastructure.providers.BrandProvider
 import org.junit.jupiter.api.BeforeEach

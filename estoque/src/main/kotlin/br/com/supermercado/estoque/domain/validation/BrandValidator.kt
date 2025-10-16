@@ -1,11 +1,10 @@
 package br.com.supermercado.estoque.domain.validation
 
-import br.com.supermercado.estoque.application.port.output.BrandRepositoryPort
 import br.com.supermercado.estoque.infrastructure.adapter.output.persistence.adapter.BrandRepositoryAdapter
-import java.util.UUID
+import java.util.*
 
 abstract class BrandValidator {
-    public fun verifyIfExistId(brandId: UUID, repository: BrandRepositoryAdapter): Boolean {
+    fun verifyIfExistId(brandId: UUID, repository: BrandRepositoryAdapter): Boolean {
         return repository.existsById(brandId)
     }
 
