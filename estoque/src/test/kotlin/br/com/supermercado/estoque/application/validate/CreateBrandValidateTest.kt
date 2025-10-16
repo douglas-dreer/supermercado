@@ -1,7 +1,9 @@
 package br.com.supermercado.estoque.application.validate
 
 import br.com.supermercado.estoque.application.port.output.BrandRepositoryPort
-import br.com.supermercado.estoque.application.validate.brand.CreateBrandValidateImpl
+import br.com.supermercado.estoque.application.validate.brand.CreateBrandValidate
+import br.com.supermercado.estoque.domain.exception.BusinessException
+
 
 import br.com.supermercado.estoque.infrastructure.providers.BrandProvider
 import io.mockk.every
@@ -21,7 +23,7 @@ class CreateBrandValidateTest {
     private lateinit var repository: BrandRepositoryPort
 
     @InjectMockKs
-    private lateinit var validate: CreateBrandValidateImpl
+    private lateinit var createValidate: CreateBrandValidate
 
     private val brandProvider = BrandProvider()
 
@@ -31,7 +33,7 @@ class CreateBrandValidateTest {
         every { repository.existsByName(any<String>()) } returns false
 
         assertDoesNotThrow {
-            validate.execute(brand)
+            createValidate.execute(brand)
         }
 
         verify(exactly = 1) { repository.existsByName(any<String>()) }
@@ -43,8 +45,8 @@ class CreateBrandValidateTest {
         every { repository.existsByName(any<String>()) } returns true
 
 
-        assertThrows<BrandAlreadyExistsException> {
-            validate.execute(brand)
+        assertThrows<BusinessException> {
+            createValidate.execute(brand)
         }
 
         verify(exactly = 1) { repository.existsByName(any<String>()) }
